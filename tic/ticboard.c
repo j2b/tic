@@ -27,3 +27,18 @@ void tic_destroy_board(ticBoard *board){
     board->y = 0;
     free(board->field);
 }
+
+char tic_get(int x, int y, ticBoard *board){
+    assert(board->sz > 0);
+    assert(board->sz > (size_t) (x * y));
+    
+    return board->field[y*board->x + x];
+}
+
+char tic_put(int x, int y, ticBoard *board, char cellstate){
+    assert(board->sz > 0);
+    assert(board->sz > (size_t) (x * y));
+    
+    board->field[y*board->x + x] =cellstate;
+    return board->field[y*board->x + x];
+}

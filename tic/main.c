@@ -29,6 +29,17 @@ int main(int argc, const char * argv[]) {
     
     tic_display_board(&board);
     
+    
+    //BEGIN DEBUG
+    tic_put(0, 0, &board, EX);
+    tic_put(0, 1, &board, EX);
+    tic_put(2, 0, &board, OH);
+    tic_put(2, 2, &board, OH);
+    
+    printf("\n\n 0,0 X; 0,1 X; 2,0 O; 2,2 0\n");
+    tic_display_board(&board);
+    //END DEBUG
+    
     tic_destroy_board(&board);
     
     exit(EXIT_SUCCESS);
@@ -46,9 +57,9 @@ void tic_display_board(ticBoard *board){
     memset(horizontal_bar, '-', horizontal_bar_sz - 1);
     horizontal_bar[horizontal_bar_sz - 1] = 0;
     
-    for(int y = 0; y < board->y; y++){
+    for(int y = board->y - 1; y >= 0; y--){
         for(int x = 0; x < board->x; x++) {
-            switch(board->field[y*board->x + x]){
+            switch(tic_get(x, y, board)){
                 case EX:
                     printf("X");
                     break;
@@ -62,7 +73,7 @@ void tic_display_board(ticBoard *board){
                 printf("|");
         }
         printf("\n");
-        if(y<board->y - 1)
+        if(y > 0)
             printf("%s\n", horizontal_bar);
     }
 }

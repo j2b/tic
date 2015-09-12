@@ -26,6 +26,7 @@ typedef struct{
 
 void tic_destroy_board(ticBoard *board);
 size_t tic_init_board(int x, int y, ticBoard *board);
-
+char tic_get(int x, int y, ticBoard *board);
+char tic_put(int x, int y, ticBoard *board, char cellstate);
 
 #endif
