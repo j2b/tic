@@ -20,7 +20,7 @@ void welcome(void);
 
 int main(int argc, const char * argv[]) {
     ticBoard board;
-    if(tic_init_board(3, 3, &board) == NULL){
+    if(tic_init_board(3, 3, &board) == 0){
         fprintf(stderr, "Unable to allocate board\n");
         exit(EXIT_FAILURE);
     };
@@ -31,7 +31,7 @@ int main(int argc, const char * argv[]) {
     
     tic_destroy_board(&board);
     
-    return 0;
+    exit(EXIT_SUCCESS);
 }
 
 
