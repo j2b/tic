@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
     if(tic_init_board(3, 3, &board) == 0){
         fprintf(stderr, "Unable to allocate board\n");
         exit(EXIT_FAILURE);
-    };
+    }
     
     welcome();
     
@@ -36,18 +36,19 @@ int main(int argc, const char * argv[]) {
 
 
 int get_term_width(){
+    //should find out the terminal width, but for now 80
     return 80;
 }
 
 void tic_display_board(ticBoard *board){
-    size_t horizontal_bar_sz = board->y * 2;
+    size_t horizontal_bar_sz = board->x * 2;
     char horizontal_bar[horizontal_bar_sz];
     memset(horizontal_bar, '-', horizontal_bar_sz - 1);
     horizontal_bar[horizontal_bar_sz - 1] = 0;
     
-    for(int x = 0; x < board->x; x++){
-        for(int y = 0; y < board->y; y++) {
-            switch(board->field[x*board->y + y]){
+    for(int y = 0; y < board->y; y++){
+        for(int x = 0; x < board->x; x++) {
+            switch(board->field[y*board->x + x]){
                 case EX:
                     printf("X");
                     break;
@@ -57,16 +58,17 @@ void tic_display_board(ticBoard *board){
                 default:
                     printf(" ");
             }
-            if(y < board->y -1)
+            if(x < board->x -1)
                 printf("|");
         }
         printf("\n");
-        if(x<board->x - 1)
+        if(y<board->y - 1)
             printf("%s\n", horizontal_bar);
     }
 }
 
 void welcome(void){
+    // TODO make a center function
     size_t margin, msglen;
     char *spaces;
     const char welcome_msg[] = "WELCOME TO TIC TAC TOE";

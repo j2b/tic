@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>229B9B49-69A6-450A-A1C1-80536D3636C7</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>tic</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>764B9BCF288A4A3675517539E45EF6F038070DA8</key>
 		<string>github.com:j2b/tic.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>tic.xcodeproj/project.xcworkspace</string>
+	<string>tic.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>764B9BCF288A4A3675517539E45EF6F038070DA8</key>
