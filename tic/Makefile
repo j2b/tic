@@ -2,7 +2,6 @@ OBJS = main.o ticboard.o
 CC=gcc
 CFLAGS=-g -c -Wall -O0
 LFLAGS=-o
-#HEADERS=slist.h hash.h trie.h tree.h msort.h heap.h
 
 # The default rule - compiling our main program:
 all:	tic
@@ -22,5 +21,5 @@ tic: $(OBJS)
 $(OBJS): $(HEADERS)
 
 clean:
-	rm -f program *.o *.map *.gch
+	rm -f tic *.o *.map *.gch
 	
