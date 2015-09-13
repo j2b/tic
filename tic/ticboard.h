@@ -10,6 +10,7 @@
 #define tic_ticboard_h
 
 #include <stdlib.h>
+#include <ncurses.h>
 
 //board cell states
 #define EX    1

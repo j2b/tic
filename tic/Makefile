@@ -1,15 +1,13 @@
 OBJS = main.o ticboard.o
 CC=gcc
 CFLAGS=-g -c -Wall -O0
-LFLAGS=-o
+LFLAGS=-lncurses -o
 
 # The default rule - compiling our main program:
 all:	tic
 		echo all: make complete
 
 tic: $(OBJS)
-# If we get here, all the dependencies are now built.
-# Link it:
 	$(CC) $(LFLAGS) $@ $+
 #$(CC) $(LFLAGS) $@ $+ -Wl
 

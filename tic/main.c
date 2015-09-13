@@ -14,9 +14,11 @@
 #include "ticboard.h"
 
 int get_term_width();
-void tic_display_board(ticBoard *board);
+void tic_display_board_nc(ticBoard *board);
+void tic_display_board_cli(ticBoard *board);
+void tic_update_board(short int play_x, short int play_y, char player);
 void welcome(void);
-
+short int scr_x, scr_y;
 
 int main(int argc, const char * argv[]) {
     ticBoard board;
@@ -27,20 +29,30 @@ int main(int argc, const char * argv[]) {
     
     welcome();
     
-    tic_display_board(&board);
+    tic_display_board_nc(&board);
     
     
     //BEGIN DEBUG
-    tic_put(0, 0, &board, EX);
-    tic_put(0, 1, &board, EX);
-    tic_put(2, 0, &board, OH);
-    tic_put(2, 2, &board, OH);
+    //tic_put(0, 0, &board, EX);
+    //tic_put(0, 1, &board, EX);
+    //tic_put(2, 0, &board, OH);
+    //tic_put(2, 2, &board, OH);
     
-    printf("\n\n 0,0 X; 0,1 X; 2,0 O; 2,2 0\n");
-    tic_display_board(&board);
+    //printf("\n\n 0,0 X; 0,1 X; 2,0 O; 2,2 0\n");
+    tic_update_board(0, 0, 'x');
+    tic_update_board(0, 1, 'y');
+    tic_update_board(0, 2, 'x');
+    tic_update_board(1, 0, 'y');
+    tic_update_board(1, 1, 'x');
+    tic_update_board(1, 2, 'y');
+    tic_update_board(2, 0, 'x');
+    tic_update_board(2, 1, 'y');
+    tic_update_board(2, 2, 'x');
+    //tic_display_board_nc(&board);
     //END DEBUG
     
     tic_destroy_board(&board);
+
     
     exit(EXIT_SUCCESS);
 }
@@ -51,7 +63,25 @@ int get_term_width(){
     return 80;
 }
 
-void tic_display_board(ticBoard *board){
+void tic_display_board_nc(ticBoard *board){
+    getmaxyx(stdscr,scr_y,scr_x);
+    mvprintw((scr_y/2)-5, (scr_x/2)-4,      "  | |  ");
+    mvprintw((scr_y/2)-4, (scr_x/2)-4,      "-------");
+    mvprintw((scr_y/2)-3, (scr_x/2)-4,      "  | |  ");
+    mvprintw((scr_y/2)-2, (scr_x/2)-4,      "-------");
+    mvprintw((scr_y/2)-1, (scr_x/2)-4,      "  | |  ");
+    refresh();
+}
+
+void tic_update_board(short int play_x, short int play_y, char player){
+    mvaddch((scr_y/2)-5 + play_y*2, (scr_x/2)-3+2*play_x, player);
+    curs_set(1);
+    refresh();
+    return;
+
+}
+
+void tic_display_board_cli(ticBoard *board){
     size_t horizontal_bar_sz = board->x * 2;
     char horizontal_bar[horizontal_bar_sz];
     memset(horizontal_bar, '-', horizontal_bar_sz - 1);

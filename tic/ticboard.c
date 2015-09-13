@@ -16,7 +16,7 @@ size_t tic_init_board(int x, int y, ticBoard *board){
     board->y = y;
     board->field = malloc(board->sz);
     memset(board->field, EMPTY, board->sz);
-    
+    initscr();
     return board->sz;
 }
 
@@ -26,6 +26,8 @@ void tic_destroy_board(ticBoard *board){
     board->x = 0;
     board->y = 0;
     free(board->field);
+    getch();
+    endwin();
 }
 
 char tic_get(int x, int y, ticBoard *board){
