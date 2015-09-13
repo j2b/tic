@@ -2,8 +2,9 @@
 //  ticboard.c
 //  tic
 //
-//  Created by John McGlinn on 9/12/15.
+//  Created by J.P. McGlinn on 9/12/15.
 //  Copyright (c) 2015 j2b. All rights reserved.
+//  Copyright (c) 2015 J.P. McGlinn. All rights reserved.
 //
 
 #include "ticboard.h"
@@ -16,8 +17,7 @@ size_t tic_init_board(int x, int y, ticBoard *board){
     board->y = y;
     board->field = malloc(board->sz);
     memset(board->field, EMPTY, board->sz);
-    initscr();
-    return board->sz;
+    return board->field!=NULL?board->sz:0;
 }
 
 void tic_destroy_board(ticBoard *board){
@@ -26,8 +26,6 @@ void tic_destroy_board(ticBoard *board){
     board->x = 0;
     board->y = 0;
     free(board->field);
-    getch();
-    endwin();
 }
 
 char tic_get(int x, int y, ticBoard *board){

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		08A03FB41BA40F8A00B65212 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08A03FB31BA40F8A00B65212 /* main.c */; };
 		08A03FBB1BA40FFF00B65212 /* ticboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 08A03FBA1BA40FFF00B65212 /* ticboard.c */; };
+		08EE59C31BA5605C00B2C442 /* libncurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EE59C21BA5605C00B2C442 /* libncurses.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,7 @@
 		08A03FB31BA40F8A00B65212 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		08A03FBA1BA40FFF00B65212 /* ticboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ticboard.c; sourceTree = "<group>"; };
 		08A03FBC1BA4101A00B65212 /* ticboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ticboard.h; sourceTree = "<group>"; };
+		08EE59C21BA5605C00B2C442 /* libncurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libncurses.dylib; path = usr/lib/libncurses.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08EE59C31BA5605C00B2C442 /* libncurses.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +47,7 @@
 		08A03FA71BA40F8A00B65212 = {
 			isa = PBXGroup;
 			children = (
+				08EE59C21BA5605C00B2C442 /* libncurses.dylib */,
 				08A03FB21BA40F8A00B65212 /* tic */,
 				08A03FB11BA40F8A00B65212 /* Products */,
 			);
@@ -241,6 +245,7 @@
 				08A03FB91BA40F8A00B65212 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

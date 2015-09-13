@@ -2,15 +2,15 @@
 //  ticboard.h
 //  tic
 //
-//  Created by John McGlinn on 9/11/15.
+//  Created by J.P. McGlinn on 9/11/15.
 //  Copyright (c) 2015 j2b. All rights reserved.
+//  Copyright (c) 2015 J.P. McGlinn. All rights reserved.
 //
 
 #ifndef tic_ticboard_h
 #define tic_ticboard_h
 
 #include <stdlib.h>
-#include <ncurses.h>
 
 //board cell states
 #define EX    1
