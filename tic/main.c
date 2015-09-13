@@ -13,7 +13,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ncurses.h>
+#include <math.h>
 #include "ticboard.h"
+
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
 
 int get_term_width();
 void tic_display_board_nc();
@@ -22,7 +26,11 @@ void tic_refresh_board(ticBoard *board);
 void tic_update_board(short int play_x, short int play_y, ticBoard *board, char player);
 void tic_update_cell_nc(short int play_x, short int play_y, char marker);
 void welcome(void);
-short int scr_x, scr_y;
+//short int wscr, hscr;
+short int wscr, hscr;
+short int wbrd, hbrd;
+short int wcel, hcel;
+WINDOW *ticwin;
 
 int main(int argc, const char * argv[]) {
     ticBoard board;
@@ -36,6 +44,18 @@ int main(int argc, const char * argv[]) {
     welcome();
     
     tic_display_board_nc(&board);
+    tic_update_cell_nc(0,0,'x');
+    tic_update_cell_nc(0,1,'o');
+    tic_update_cell_nc(0,2,'x');
+
+    tic_update_cell_nc(1,0,'o');
+    tic_update_cell_nc(1,1,'x');
+    tic_update_cell_nc(1,2,'o');
+
+    tic_update_cell_nc(2,0,'x');
+    tic_update_cell_nc(2,1,'o');
+    tic_update_cell_nc(2,2,'x');
+    goto out;
     
     
     //BEGIN DEBUG
@@ -65,8 +85,10 @@ int main(int argc, const char * argv[]) {
 
     //END DEBUG
     
-    
+out:    
+    getch();
     tic_destroy_board(&board);
+    delwin(ticwin);
     endwin();
     
     exit(EXIT_SUCCESS);
@@ -79,17 +101,68 @@ int get_term_width(){
 }
 
 void tic_display_board_nc(void){
-    getmaxyx(stdscr,scr_y,scr_x);
-    mvprintw((scr_y/2)-5, (scr_x/2)-4,      "  | |  ");
-    mvprintw((scr_y/2)-4, (scr_x/2)-4,      "-------");
-    mvprintw((scr_y/2)-3, (scr_x/2)-4,      "  | |  ");
-    mvprintw((scr_y/2)-2, (scr_x/2)-4,      "-------");
-    mvprintw((scr_y/2)-1, (scr_x/2)-4,      "  | |  ");
     refresh();
+    ticwin = newwin(0, 0, 0, 0);
+    getmaxyx(ticwin,hscr,wscr);
+    hbrd = hscr;
+    wbrd = wscr;
+    hcel = hbrd / 3;
+    wcel = wbrd / 3;
+    box(ticwin, 0 , 0);		/* 0, 0 gives default characters     */
+    wrefresh(ticwin);
+    wmove(ticwin, hcel, 0); whline(ticwin, '-', wbrd);
+    wmove(ticwin, 2*hcel, 0); whline(ticwin, '-', wbrd);
+    wmove(ticwin, 0, wcel); wvline(ticwin, '|', hbrd);
+    wmove(ticwin, 0, 2*wcel); wvline(ticwin, '|', hbrd);
+    start_color();
+    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    wbkgd(ticwin, COLOR_PAIR(1));
+    wrefresh(ticwin);
+
+    //mvprintw(0,0,"wscr=%d, hscr=%d, wbrd=%d, hbrd=%d, wcel=%d, hcel=%d\n", wscr, hscr, wbrd, hbrd, wcel, hcel);
+    //mvprintw(2,0,"wscr=%d, hscr=%d, wbrd=%d, hbrd=%d, wcel=%d, hcel=%d\n", wscr, hscr, wbrd, hbrd, wcel, hcel);
+    //mvprintw(4,0,"wscr=%d, hscr=%d, wbrd=%d, hbrd=%d, wcel=%d, hcel=%d\n", wscr, hscr, wbrd, hbrd, wcel, hcel);
+    //wmove(ticwin, hcel, 0); whline(ticwin, '-', 3*wcel);
+    //move(hbrd-3, wbrd); hline('-', 3*wcel);
+
+    //move(hbrd-(1*hcel), wbrd-(3*wcel)); hline('-', 3*wcel);
+    //move(hbrd-(1*hcel), wbrd-(1*wcel)); hline('-', 3*wcel);
+    //move(hbrd-(3*hcel), wbrd-(3*wcel)); vline('-', 3*hcel);
+    //move(hbrd-(3*hcel), wbrd-(3*wcel)); vline('-', 3*hcel);
+#if 0
+    mvprintw((hscr/2)-5, (wscr/2)-4,      "  | |  ");
+    mvprintw((hscr/2)-4, (wscr/2)-4,      "-------");
+    mvprintw((hscr/2)-3, (wscr/2)-4,      "  | |  ");
+    mvprintw((hscr/2)-2, (wscr/2)-4,      "-------");
+    mvprintw((hscr/2)-1, (wscr/2)-4,      "  | |  ");
+#endif
+    //refresh();
 }
 
-void tic_update_cell_nc(short int play_x, short int play_y, char marker){
-    mvaddch((scr_y/2)-5 + play_y*2, (scr_x/2)-3+2*play_x, marker);
+#define DEGTORAD(deg) (deg * (180.0f/M_PI))
+void tic_update_cell_nc(short int row, short int col, char marker){
+    //mvaddch((hscr/2)-5 + play_y*2, (wscr/2)-3+2*play_x, marker);
+    int h=0, w;
+    if (marker == 'x') {
+        for (h=w=0; w<hcel-3; w++, h++) {
+            mvwaddch(ticwin, row*hcel+h+2, col*wcel+w+2, marker);
+        }
+        for (h=w=0; w<hcel-3; w++, h++) {
+            mvwaddch(ticwin, (row+1)*hcel-h-2, col*wcel+col+w+2, marker);
+        }
+    } else {
+        float deg, width, height;
+        width = wcel/2;
+        height = hcel/2;
+        int y, x;
+        for (deg = 0; deg < 360.0f; deg += 1.0f) {
+            x = width+(int)(width * cos(DEGTORAD(deg))) + col * wcel;
+            y = height+(int)(height * sin(DEGTORAD(deg))) + row * hcel;
+            mvwaddch(ticwin, y, x, '.');
+        }
+        
+    }
+    wrefresh(ticwin);
 }
 
 void tic_update_board(short int play_x, short int play_y, ticBoard *board, char player){
